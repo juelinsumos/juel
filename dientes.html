@@ -3,40 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JUEL</title>
+<title>JUEL - Pedido Acritone</title>
 <style>
-body{margin:0;font-family:Arial;background:#fff}
-.top{display:flex;align-items:center;gap:14px;padding:14px;border-bottom:5px solid #0a8dad}
-.top img{height:80px}
-.bar{background:#0a8dad;color:#fff;text-align:center;padding:12px;font-weight:900}
-.box{max-width:1120px;margin:auto;padding:0 8px 180px}
-.h2{text-align:center;color:#0e4c9e;font-weight:900;margin:28px 0 8px}
-table{width:100%;border-collapse:collapse}
-th{background:#1556a5;color:#fff;padding:10px 2px;border:1px solid #fff;font-size:12px}
-td{border:1px solid #999;padding:0;text-align:center}
-td.m{background:#1556a5;color:#fff;font-weight:800;padding:10px;width:70px}
-td.m2{background:#1992c0;color:#fff;font-weight:800;padding:10px;width:70px}
-td input{width:100%;border:0;padding:10px;text-align:center;font-weight:700}
-.total{position:fixed;bottom:65px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:14px;font-weight:900}
-.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:10px;justify-content:center}
-.btn{flex:1;max-width:300px;padding:14px;border:0;border-radius:30px;font-weight:900}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f2f6fa}
+.top{background:#fff;padding:16px;text-align:center;border-bottom:6px solid #0a8dad}
+.top img{height:95px}
+.top h1{margin:10px 0 0 0;color:#0a8dad;font-size:22px}
+.top p{margin:0;color:#333;font-weight:700}
+.container{max-width:1150px;margin:0 auto;padding:12px 10px 180px 10px}
+.card{background:#fff;border-radius:12px;padding:16px;margin:16px 0;box-shadow:0 2px 10px #0001}
+.card h2{margin:0 0 12px 0;color:#0e4c9e;font-size:16px;text-align:center;background:#e8f4fa;padding:10px;border-radius:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .field{flex:1;min-width:220px}
+.field label{display:block;font-weight:800;font-size:12px;color:#0e4c9e;margin-bottom:4px}
+.field input{width:100%;padding:12px;border:2px solid #0a8dad;border-radius:8px;font-size:14px}
+table{width:100%;border-collapse:collapse;margin-top:6px}
+th{background:#1556a5;color:#fff;padding:9px 2px;border:1px solid #fff;font-size:11px}
+td{border:1px solid #bbb;padding:0;text-align:center;background:#fff}
+td.modelo{background:#1556a5;color:#fff;font-weight:800;padding:8px;width:65px}
+td.modelo2{background:#1992c0;color:#fff;font-weight:800;padding:8px;width:65px}
+td input{width:100%;border:0;padding:10px;text-align:center;font-weight:700;outline:none}
+.total-bar{position:fixed;bottom:75px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:14px;font-weight:900;font-size:18px;z-index:10}
+.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 12px #0003;z-index:11}
+.btn{flex:1;max-width:340px;padding:16px;border:0;border-radius:30px;font-weight:900;font-size:15px;cursor:pointer}
 .wa{background:#25D366;color:#fff}.pdf{background:#111;color:#fff}
+.seccion{color:#0e4c9e;font-weight:900;text-align:center;margin:22px 0 8px 0;font-size:17px}
 </style>
 </head>
 <body>
-<div class="top"><img src="logo.jpg"><b>JUEL - INSUMOS ODONTOLOGICOS<br>ACRITONE - WhatsApp 2252 408943</b></div>
-<div class="bar">PEDIDO ACRITONE - JUEL - COLORES: 61 62 66 67 81 65 68 69 71 77</div>
-<div class="box" id="box"></div>
-<div class="total">TOTAL: <span id="tg">0</span> tablillas</div>
-<div class="btns"><button class="btn pdf" onclick="pdf()">PDF</button><button class="btn wa" onclick="wa()">ENVIAR A JUEL</button></div>
+<div class="top">
+<img src="data:image/jpeg;base64,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">
+<h1>JUEL INSUMOS ODONTOLOGICOS</h1>
+<p>ACRITONE - Pedidos - 2252 408943 - Santa Teresita</p>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h2>📋 DATOS DEL CLIENTE - LISTADO DE PEDIDO</h2>
+<div class="row">
+<div class="field"><label>NOMBRE Y APELLIDO *</label><input id="nombre" type="text" placeholder="Ej: Juan Perez"></div>
+<div class="field"><label>CONTACTO / TELEFONO *</label><input id="contacto" type="text" placeholder="Ej: 2255 123456"></div>
+</div>
+<div class="row" style="margin-top:10px">
+<div class="field"><label>LOCALIDAD / DIRECCION</label><input id="localidad" type="text" placeholder="Ej: San Clemente"></div>
+<div class="field"><label>DENTISTA / LABORATORIO</label><input id="lab" type="text" placeholder="Ej: Laboratorio Lopez"></div>
+</div>
+</div>
+
+<div id="tablas"></div>
+
+</div>
+
+<div class="total-bar">TOTAL: <span id="tg">0</span> tablillas</div>
+<div class="btns">
+<button class="btn pdf" onclick="pdf()">📄 PDF</button>
+<button class="btn wa" onclick="mandar()">📱 MANDAR POR TELEFONO A JUEL</button>
+</div>
+
 <script>
-c=["61","62","66","67","81","65","68","69","71","77"];
-t=[{n:"ANTERO SUPERIOR",f:["16","18","20","22","25","26","28","30","32","34","36","38","40"]},{n:"ANTERO INFERIOR",f:["16","18","20","25","26","30","32","36","38","40"]},{n:"POSTERIOR SUPERIOR",f:["P4","P5","P6"]},{n:"POSTERIOR INFERIOR",f:["P4","P5","P6"]}];
-function R(){let h="";t.forEach(x=>{h+=`<div class="h2">${x.n}</div><table><tr><th>Modelo</th>`+c.map(z=>`<th>${z}</th>`).join("")+`</tr>`;x.f.forEach(y=>{let k=x.n.includes("POSTERIOR")?"m2":"m";h+=`<tr><td class="${k}">${y}</td>`+c.map(z=>`<td><input id="${x.n}_${y}_${z}" type="number" min="0" placeholder="0" oninput="C()"></td>`).join("")+`</tr>`;});h+=`</table>`;});document.getElementById("box").innerHTML=h;}R();
-function C(){let g=0;t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{g+=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;});});});document.getElementById("tg").innerText=g;}
-function G(){let a=[];t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{let v=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;if(v>0)a.push({n:x.n,m:y,c:z,q:v});});});});return a;}
-function wa(){let a=G();if(!a.length){alert("Cargá cantidades");return;}let txt=`PEDIDO JUEL TOTAL ${document.getElementById("tg").innerText}%0A`;a.forEach(i=>{txt+=`${i.n} Mod ${i.m} Color ${i.c} x ${i.q}%0A`;});window.open(`https://wa.me/5492252408943?text=${txt}`,"_blank");}
-function pdf(){let a=G();if(!a.length){alert("Cargá");return;}alert("PDF listo - Total "+document.getElementById("tg").innerText);}
+colores=["61","62","66","67","81","65","68","69","71","77"];
+tipos=[
+{n:"ANTERO SUPERIOR",f:["16","18","20","22","25","26","28","30","32","34","36","38","40"]},
+{n:"ANTERO INFERIOR",f:["16","18","20","25","26","30","32","36","38","40"]},
+{n:"POSTERIOR SUPERIOR",f:["P4","P5","P6"]},
+{n:"POSTERIOR INFERIOR",f:["P4","P5","P6"]}
+];
+
+function render(){
+let html="";
+tipos.forEach(t=>{
+html+=`<div class="card"><div class="seccion">${t.n} - TAMAÑOS</div><table><tr><th>Modelo</th>`+colores.map(c=>`<th>${c}</th>`).join("")+`</tr>`;
+t.f.forEach(m=>{
+let clase=t.n.includes("POSTERIOR")?"modelo2":"modelo";
+html+=`<tr><td class="${clase}">${m}</td>`+colores.map(c=>`<td><input id="${t.n}_${m}_${c}" type="number" min="0" placeholder="0" oninput="calc()"></td>`).join("")+`</tr>`;
+});
+html+=`</table></div>`;
+});
+document.getElementById("tablas").innerHTML=html;
+}
+render();
+
+function calc(){
+let total=0;
+tipos.forEach(t=>{t.f.forEach(m=>{colores.forEach(c=>{total+=parseInt(document.getElementById(`${t.n}_${m}_${c}`).value)||0;});});});
+document.getElementById("tg").innerText=total;
+}
+
+function getPedido(){
+let lista=[];
+tipos.forEach(t=>{t.f.forEach(m=>{colores.forEach(c=>{let v=parseInt(document.getElementById(`${t.n}_${m}_${c}`).value)||0; if(v>0) lista.push({tipo:t.n, modelo:m, color:c, cant:v});});});});
+return lista;
+}
+
+function mandar(){
+let nombre=document.getElementById("nombre").value.trim();
+let contacto=document.getElementById("contacto").value.trim();
+let localidad=document.getElementById("localidad").value.trim();
+let lab=document.getElementById("lab").value.trim();
+let pedido=getPedido();
+let total=document.getElementById("tg").innerText;
+
+if(!nombre){alert("Falta NOMBRE Y APELLIDO del cliente"); document.getElementById("nombre").focus(); return;}
+if(!contacto){alert("Falta CONTACTO del cliente"); document.getElementById("contacto").focus(); return;}
+if(pedido.length==0){alert("Cargá al menos 1 diente"); return;}
+
+let txt=`*PEDIDO JUEL - ACRITONE*%0A%0A`;
+txt+=`*CLIENTE:* ${nombre}%0A`;
+txt+=`*CONTACTO:* ${contacto}%0A`;
+if(localidad) txt+=`*LOCALIDAD:* ${localidad}%0A`;
+if(lab) txt+=`*LAB/DENT:* ${lab}%0A`;
+txt+=`%0A*DETALLE:*%0A`;
+pedido.forEach(p=>{txt+=`- ${p.tipo} Mod ${p.modelo} Color ${p.color} x ${p.cant}%0A`;});
+txt+=`%0A*TOTAL: ${total} tablillas*%0A`;
+
+window.open(`https://wa.me/5492252408943?text=${txt}`,"_blank");
+}
+
+function pdf(){
+let pedido=getPedido();
+if(pedido.length==0){alert("Cargá algo"); return;}
+alert("PDF - Total "+document.getElementById("tg").innerText+" tablillas - "+pedido.length+" items");
+}
 </script>
 </body>
 </html>
