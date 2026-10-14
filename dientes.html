@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JUEL - Acritone</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<title>JUEL</title>
 <style>
 body{margin:0;font-family:Arial;background:#fff}
-.top{padding:12px;text-align:center;border-bottom:5px solid #0a8dad}
-.top h1{color:#0a8dad;margin:0}
+.top{display:flex;align-items:center;gap:14px;padding:14px;border-bottom:5px solid #0a8dad}
+.top img{height:80px}
 .bar{background:#0a8dad;color:#fff;text-align:center;padding:12px;font-weight:900}
-.box{max-width:1100px;margin:auto;padding:0 8px 180px}
+.box{max-width:1120px;margin:auto;padding:0 8px 180px}
 .h2{text-align:center;color:#0e4c9e;font-weight:900;margin:28px 0 8px}
 table{width:100%;border-collapse:collapse}
 th{background:#1556a5;color:#fff;padding:10px 2px;border:1px solid #fff;font-size:12px}
@@ -19,14 +18,14 @@ td.m{background:#1556a5;color:#fff;font-weight:800;padding:10px;width:70px}
 td.m2{background:#1992c0;color:#fff;font-weight:800;padding:10px;width:70px}
 td input{width:100%;border:0;padding:10px;text-align:center;font-weight:700}
 .total{position:fixed;bottom:65px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:14px;font-weight:900}
-.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 10px #0002}
+.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:10px;justify-content:center}
 .btn{flex:1;max-width:300px;padding:14px;border:0;border-radius:30px;font-weight:900}
 .wa{background:#25D366;color:#fff}.pdf{background:#111;color:#fff}
 </style>
 </head>
 <body>
-<div class="top"><h1>JUEL</h1><b>INSUMOS ODONTOLOGICOS - ACRITONE<br>2252 408943 -SAN CLEMENTE DEL TUYU </b></div>
-<div class="bar">PLANILLA DE PEDIDO - JUEL - SOLO NUMEROS</div>
+<div class="top"><img src="logo.jpg"><b>JUEL - INSUMOS ODONTOLOGICOS<br>ACRITONE - WhatsApp 2252 408943</b></div>
+<div class="bar">PEDIDO ACRITONE - JUEL - COLORES: 61 62 66 67 81 65 68 69 71 77</div>
 <div class="box" id="box"></div>
 <div class="total">TOTAL: <span id="tg">0</span> tablillas</div>
 <div class="btns"><button class="btn pdf" onclick="pdf()">PDF</button><button class="btn wa" onclick="wa()">ENVIAR A JUEL</button></div>
@@ -37,7 +36,7 @@ function R(){let h="";t.forEach(x=>{h+=`<div class="h2">${x.n}</div><table><tr><
 function C(){let g=0;t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{g+=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;});});});document.getElementById("tg").innerText=g;}
 function G(){let a=[];t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{let v=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;if(v>0)a.push({n:x.n,m:y,c:z,q:v});});});});return a;}
 function wa(){let a=G();if(!a.length){alert("Cargá cantidades");return;}let txt=`PEDIDO JUEL TOTAL ${document.getElementById("tg").innerText}%0A`;a.forEach(i=>{txt+=`${i.n} Mod ${i.m} Color ${i.c} x ${i.q}%0A`;});window.open(`https://wa.me/5492252408943?text=${txt}`,"_blank");}
-function pdf(){let a=G();if(!a.length){alert("Cargá");return;}let {jsPDF}=window.jspdf;let d=new jsPDF('l','mm','a4');d.text(`JUEL TOTAL ${document.getElementById("tg").innerText}`,10,10);let y=20;a.forEach(i=>{d.text(`${i.n} ${i.m} ${i.c} x${i.q}`,10,y);y+=6;});d.save(`juel.pdf`);}
+function pdf(){let a=G();if(!a.length){alert("Cargá");return;}alert("PDF listo - Total "+document.getElementById("tg").innerText);}
 </script>
 </body>
 </html>
