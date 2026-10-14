@@ -1,89 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Juel - Dientes</title>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Juel - Acritone</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{background:#9e9e9e;margin:0;font-family:Arial;text-align:center;padding-bottom:110px}
-.header{background:#fff;padding:22px}
-.logo{max-width:330px;width:90%;border-radius:16px;display:block;margin:0 auto 10px}
-.card{max-width:650px;margin:14px auto;background:#fff;padding:16px;border-radius:16px;text-align:left}
-.card input{width:100%;padding:13px;border:2px solid #25D366;border-radius:12px;box-sizing:border-box}
-.tabla{max-width:650px;margin:0 auto 16px;background:#fff;border-radius:16px;overflow:hidden}
-.tit{background:#111;color:#fff;padding:11px 14px;font-weight:700;text-align:left;font-size:13px}
-.fila{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid #eee;text-align:left}
-.qty{display:flex;gap:5px}
-.qty button{width:34px;height:34px;border-radius:50%;border:1px solid #25D366;background:#fff;font-weight:700}
-.qty input{width:62px;padding:8px;border:2px solid #25D366;border-radius:10px;text-align:center;font-weight:800}
-.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:8px;justify-content:center}
-.btn{flex:1;max-width:200px;padding:14px;border:0;border-radius:30px;font-weight:800}
-.btn-pdf{background:#111;color:#fff}.btn-wa{background:#25D366;color:#fff}
-</style>
-</head>
-<body>
-<div class="header">
-<img src="Copia de juel 3.jpg" class="logo">
-<h2>JUEL - PEDIDO DIENTES ACRITONE</h2>
-<p>WhatsApp 2252 40-8943</p>
-</div>
-<div class="card">
-<b>Nombre y Apellido *</b><br>
-<input id="nombre" placeholder="Nombre del cliente"><br><br>
-<b>Teléfono *</b><br>
-<input id="tel" placeholder="Telefono">
-</div>
-<div id="lista"></div>
-<div style="height:80px"></div>
-<div class="btns">
-<button class="btn btn-pdf" onclick="hacerPDF()">📄 PDF</button>
-<button class="btn btn-wa" onclick="enviarWA()">📲 WHATSAPP</button>
-</div>
+body{margin:0;font-family:Arial;background:#fff}
+.top{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-bottom:5px solid #0a8dad}
+.top img{height:68px}.top b{color:#0a8dad;font-size:11px;line-height:1.4}
+.bar{background:#0a8dad;color:#fff;text-align:center;padding:10px;font-weight:900}
+.wrap{max-width:1150px;margin:10px auto;padding:0 8px 160px}
+.h2{text-align:center;color:#0e4c9e;font-weight:900;margin:22px 0 6px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:12px}
+th{background:#1556a5;color:#fff;padding:8px 2px;border:1px solid #fff;text-align:center}
+td{border:1px solid #999;padding:0;text-align:center}
+td.m{background:#1556a5;color:#fff;font-weight:800;padding:8px;width:68px}
+td.m2{background:#1992c0;color:#fff;font-weight:800;padding:8px;width:68px}
+td input{width:100%;border:0;padding:9px 1px;text-align:center;font-weight:700;font-size:13px;outline:none}
+.sb{background:#eee;font-weight:800;padding:6px}
+.sub{text-align:right;padding:6px 0 18px;font-size:12px}.sub b{border:1px solid #333;padding:6px 12px;border-radius:4px;background:#fff;min-width:40px;display:inline-block}
+.total{position:fixed;bottom:62px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:12px;font-weight:900;z-index:10}
+.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:8px;display:flex;gap:8px;justify-content:center;box-shadow:0 -4px 10px #0002}
+.btn{flex:1;max-width:280px;padding:14px;border:0;border-radius:30px;font-weight:900;cursor:pointer}
+.wa{background:#25D366;color:#fff}.pdf{background:#111;color:#fff}
+.datos{max-width:1150px;margin:10px auto;padding:0 8px;display:flex;gap:8px;flex-wrap:wrap}
+.inp{flex:1;min-width:160px;padding:12px;border:2px solid #0a8dad;border-radius:8px}
+</style></head><body>
+<div class="top"><img src="logo.jpg"><div><b>JUEL<br>INSUMOS ODONTOLOGICOS<br>ACRITONE - NATURAL EN VOS<br>WhatsApp: 2252 408943</b></div></div>
+<div class="bar">PLANILLA DE PEDIDO - DIENTES ACRITONE - JUEL</div>
+<div class="datos"><input id="cli" class="inp" placeholder="Cliente:"><input id="tel" class="inp" placeholder="Tel:"></div>
+<div class="wrap" id="wrap"></div>
+<div class="total">TOTAL: <span id="totalG">0</span> tablillas</div>
+<div class="btns"><button class="btn pdf" onclick="pdf()">PDF</button><button class="btn wa" onclick="wa()">WHATSAPP JUEL</button></div>
 <script>
-const grupos=[
-{t:"ANTERIOR SUPERIOR", items:["A1","A2","A3","A3.5","B1","B2","C1","C2"]},
-{t:"ANTERIOR INFERIOR", items:["A1","A2","A3","A3.5","B1","B2"]},
-{t:"POSTERIOR SUPERIOR", items:["A1","A2","A3","A3.5","B2"]},
-{t:"POSTERIOR INFERIOR", items:["A1","A2","A3","A3.5","B2"]},
-{t:"BLISTER", items:["Blister x28 surtido"]}
-];
-let html="",idx=0;
-grupos.forEach(g=>{
-html+=`<div class="tabla"><div class="tit">${g.t}</div>`;
-g.items.forEach(it=>{
-html+=`<div class="fila"><div><b>Acritone ${it}</b><br><small>$2.100</small></div><div class="qty"><button onclick="chg(${idx},-1)">-</button><input id="c${idx}" type="number" min="0" value="0"><button onclick="chg(${idx},1)">+</button></div></div>`;
-idx++;
-});
-html+=`</div>`;
-});
-document.getElementById('lista').innerHTML=html;
-function chg(i,d){let e=document.getElementById('c'+i);e.value=Math.max(0,(parseInt(e.value)||0)+d);}
-function getDatos(){
-let nom=document.getElementById('nombre').value;
-let tel=document.getElementById('tel').value;
-let items=[]; let n=0;
-grupos.forEach(g=>{g.items.forEach(it=>{let c=parseInt(document.getElementById('c'+n).value)||0; if(c>0) items.push({nombre:`${g.t} ${it}`,cant:c}); n++;});});
-return {nom,tel,items};
-}
-function hacerPDF(){
-let {nom,tel,items}=getDatos();
-if(!nom){alert("Poné nombre");return}
-if(items.length==0){alert("Poné cantidad");return}
-const {jsPDF}=window.jspdf; let doc=new jsPDF();
-doc.text(`JUEL - PEDIDO DIENTES`,10,15);
-doc.text(`Cliente: ${nom} - Tel: ${tel}`,10,25);
-let y=35; items.forEach(it=>{doc.text(`${it.cant} x Acritone ${it.nombre}`,10,y); y+=7;});
-doc.save(`Pedido-${nom}.pdf`);
-}
-function enviarWA(){
-let {nom,tel,items}=getDatos();
-if(!nom){alert("Poné nombre");return}
-if(items.length==0){alert("Poné cantidad");return}
-let txt=`Hola Juel soy ${nom} tel ${tel} %0APedido dientes:%0A`;
-items.forEach(it=>{txt+=`- ${it.cant} x ${it.nombre}%0A`;});
-window.open(`https://wa.me/5492252408943?text=${txt}`,'_blank');
-}
-</script>
-</body>
-</html>
+c=["61","62","66","67","81","65","68","69","71","77"];
+t=[{t:"ANTERIORES SUPERIORES",i:"AS",f:["16","18","20","22","25","26","28","30","32","34","36","38","40"]},{t:"ANTERIORES INFERIORES",i:"AI",f:["16","18","20","25","26","30","32","36","38","40"]},{t:"POSTERIORES SUPERIORES",i:"PS",f:["P4","P5","P6"]},{t:"POSTERIORES INFERIORES",i:"PI",f:["P4","P5","P6"]}];
+function R(){let h="";t.forEach(x=>{h+=`<div class="h2">${x.t}</div><table><tr><th style="background:#fff;color:#111;border:1px solid #999">Modelo</th>`+c.map(z=>`<th>${z}</th>`).join("")+`</tr>`;x.f.forEach(y=>{let k=x.i.startsWith("P")?"m2":"m";h+=`<tr><td class="${k}">${y}</td>`+c.map(z=>`<td><input id="${x.i}_${y}_${z}" type="number" min="0" placeholder="0" oninput="C()"></td>`).join("")+`</tr>`;});h+=`<tr><td class="sb">SUB-TOTAL</td>`+c.map(z=>`<td class="sb" id="s_${x.i}_${z}">0</td>`).join("")+`</tr></table><div class="sub">Sub-total ${x.t} <b id="st_${x.i}">0</b></div>`;});document.getElementById("wrap").innerHTML=h;}R();
+function C(){let g=0;t.forEach(x=>{let sT=0;c.forEach(z=>{let s=0;x.f.forEach(y=>{let e=document.getElementById(`${x.i}_${y}_${z}`);if(e)s+=parseInt(e.value)||0;});document.getElementById(`s_${x.i}_${z}`).innerText=s;sT+=s;});document.getElementById(`st_${x.i}`).innerText=sT;g+=sT;});document.getElementById("totalG").innerText=g;}
+function G(){let a=[];t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{let v=parseInt(document.getElementById(`${x.i}_${y}_$
