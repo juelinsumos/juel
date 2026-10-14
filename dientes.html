@@ -1,37 +1,43 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Juel - Acritone</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JUEL - Acritone</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body{margin:0;font-family:Arial;background:#fff}
-.top{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-bottom:5px solid #0a8dad}
-.top img{height:68px}.top b{color:#0a8dad;font-size:11px;line-height:1.4}
-.bar{background:#0a8dad;color:#fff;text-align:center;padding:10px;font-weight:900}
-.wrap{max-width:1150px;margin:10px auto;padding:0 8px 160px}
-.h2{text-align:center;color:#0e4c9e;font-weight:900;margin:22px 0 6px}
-table{width:100%;border-collapse:collapse;background:#fff;font-size:12px}
-th{background:#1556a5;color:#fff;padding:8px 2px;border:1px solid #fff;text-align:center}
+.top{padding:12px;text-align:center;border-bottom:5px solid #0a8dad}
+.top h1{color:#0a8dad;margin:0}
+.bar{background:#0a8dad;color:#fff;text-align:center;padding:12px;font-weight:900}
+.box{max-width:1100px;margin:auto;padding:0 8px 180px}
+.h2{text-align:center;color:#0e4c9e;font-weight:900;margin:28px 0 8px}
+table{width:100%;border-collapse:collapse}
+th{background:#1556a5;color:#fff;padding:10px 2px;border:1px solid #fff;font-size:12px}
 td{border:1px solid #999;padding:0;text-align:center}
-td.m{background:#1556a5;color:#fff;font-weight:800;padding:8px;width:68px}
-td.m2{background:#1992c0;color:#fff;font-weight:800;padding:8px;width:68px}
-td input{width:100%;border:0;padding:9px 1px;text-align:center;font-weight:700;font-size:13px;outline:none}
-.sb{background:#eee;font-weight:800;padding:6px}
-.sub{text-align:right;padding:6px 0 18px;font-size:12px}.sub b{border:1px solid #333;padding:6px 12px;border-radius:4px;background:#fff;min-width:40px;display:inline-block}
-.total{position:fixed;bottom:62px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:12px;font-weight:900;z-index:10}
-.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:8px;display:flex;gap:8px;justify-content:center;box-shadow:0 -4px 10px #0002}
-.btn{flex:1;max-width:280px;padding:14px;border:0;border-radius:30px;font-weight:900;cursor:pointer}
+td.m{background:#1556a5;color:#fff;font-weight:800;padding:10px;width:70px}
+td.m2{background:#1992c0;color:#fff;font-weight:800;padding:10px;width:70px}
+td input{width:100%;border:0;padding:10px;text-align:center;font-weight:700}
+.total{position:fixed;bottom:65px;left:0;right:0;background:#0a2a5a;color:#fff;text-align:center;padding:14px;font-weight:900}
+.btns{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:10px;justify-content:center;box-shadow:0 -4px 10px #0002}
+.btn{flex:1;max-width:300px;padding:14px;border:0;border-radius:30px;font-weight:900}
 .wa{background:#25D366;color:#fff}.pdf{background:#111;color:#fff}
-.datos{max-width:1150px;margin:10px auto;padding:0 8px;display:flex;gap:8px;flex-wrap:wrap}
-.inp{flex:1;min-width:160px;padding:12px;border:2px solid #0a8dad;border-radius:8px}
-</style></head><body>
-<div class="top"><img src="logo.jpg"><div><b>JUEL<br>INSUMOS ODONTOLOGICOS<br>ACRITONE - NATURAL EN VOS<br>WhatsApp: 2252 408943</b></div></div>
-<div class="bar">PLANILLA DE PEDIDO - DIENTES ACRITONE - JUEL</div>
-<div class="datos"><input id="cli" class="inp" placeholder="Cliente:"><input id="tel" class="inp" placeholder="Tel:"></div>
-<div class="wrap" id="wrap"></div>
-<div class="total">TOTAL: <span id="totalG">0</span> tablillas</div>
-<div class="btns"><button class="btn pdf" onclick="pdf()">PDF</button><button class="btn wa" onclick="wa()">WHATSAPP JUEL</button></div>
+</style>
+</head>
+<body>
+<div class="top"><h1>JUEL</h1><b>INSUMOS ODONTOLOGICOS - ACRITONE<br>2252 408943 -SAN CLEMENTE DEL TUYU </b></div>
+<div class="bar">PLANILLA DE PEDIDO - JUEL - SOLO NUMEROS</div>
+<div class="box" id="box"></div>
+<div class="total">TOTAL: <span id="tg">0</span> tablillas</div>
+<div class="btns"><button class="btn pdf" onclick="pdf()">PDF</button><button class="btn wa" onclick="wa()">ENVIAR A JUEL</button></div>
 <script>
 c=["61","62","66","67","81","65","68","69","71","77"];
-t=[{t:"ANTERIORES SUPERIORES",i:"AS",f:["16","18","20","22","25","26","28","30","32","34","36","38","40"]},{t:"ANTERIORES INFERIORES",i:"AI",f:["16","18","20","25","26","30","32","36","38","40"]},{t:"POSTERIORES SUPERIORES",i:"PS",f:["P4","P5","P6"]},{t:"POSTERIORES INFERIORES",i:"PI",f:["P4","P5","P6"]}];
-function R(){let h="";t.forEach(x=>{h+=`<div class="h2">${x.t}</div><table><tr><th style="background:#fff;color:#111;border:1px solid #999">Modelo</th>`+c.map(z=>`<th>${z}</th>`).join("")+`</tr>`;x.f.forEach(y=>{let k=x.i.startsWith("P")?"m2":"m";h+=`<tr><td class="${k}">${y}</td>`+c.map(z=>`<td><input id="${x.i}_${y}_${z}" type="number" min="0" placeholder="0" oninput="C()"></td>`).join("")+`</tr>`;});h+=`<tr><td class="sb">SUB-TOTAL</td>`+c.map(z=>`<td class="sb" id="s_${x.i}_${z}">0</td>`).join("")+`</tr></table><div class="sub">Sub-total ${x.t} <b id="st_${x.i}">0</b></div>`;});document.getElementById("wrap").innerHTML=h;}R();
-function C(){let g=0;t.forEach(x=>{let sT=0;c.forEach(z=>{let s=0;x.f.forEach(y=>{let e=document.getElementById(`${x.i}_${y}_${z}`);if(e)s+=parseInt(e.value)||0;});document.getElementById(`s_${x.i}_${z}`).innerText=s;sT+=s;});document.getElementById(`st_${x.i}`).innerText=sT;g+=sT;});document.getElementById("totalG").innerText=g;}
-function G(){let a=[];t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{let v=parseInt(document.getElementById(`${x.i}_${y}_$
+t=[{n:"ANTERO SUPERIOR",f:["16","18","20","22","25","26","28","30","32","34","36","38","40"]},{n:"ANTERO INFERIOR",f:["16","18","20","25","26","30","32","36","38","40"]},{n:"POSTERIOR SUPERIOR",f:["P4","P5","P6"]},{n:"POSTERIOR INFERIOR",f:["P4","P5","P6"]}];
+function R(){let h="";t.forEach(x=>{h+=`<div class="h2">${x.n}</div><table><tr><th>Modelo</th>`+c.map(z=>`<th>${z}</th>`).join("")+`</tr>`;x.f.forEach(y=>{let k=x.n.includes("POSTERIOR")?"m2":"m";h+=`<tr><td class="${k}">${y}</td>`+c.map(z=>`<td><input id="${x.n}_${y}_${z}" type="number" min="0" placeholder="0" oninput="C()"></td>`).join("")+`</tr>`;});h+=`</table>`;});document.getElementById("box").innerHTML=h;}R();
+function C(){let g=0;t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{g+=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;});});});document.getElementById("tg").innerText=g;}
+function G(){let a=[];t.forEach(x=>{x.f.forEach(y=>{c.forEach(z=>{let v=parseInt(document.getElementById(`${x.n}_${y}_${z}`).value)||0;if(v>0)a.push({n:x.n,m:y,c:z,q:v});});});});return a;}
+function wa(){let a=G();if(!a.length){alert("Cargá cantidades");return;}let txt=`PEDIDO JUEL TOTAL ${document.getElementById("tg").innerText}%0A`;a.forEach(i=>{txt+=`${i.n} Mod ${i.m} Color ${i.c} x ${i.q}%0A`;});window.open(`https://wa.me/5492252408943?text=${txt}`,"_blank");}
+function pdf(){let a=G();if(!a.length){alert("Cargá");return;}let {jsPDF}=window.jspdf;let d=new jsPDF('l','mm','a4');d.text(`JUEL TOTAL ${document.getElementById("tg").innerText}`,10,10);let y=20;a.forEach(i=>{d.text(`${i.n} ${i.m} ${i.c} x${i.q}`,10,y);y+=6;});d.save(`juel.pdf`);}
+</script>
+</body>
+</html>
